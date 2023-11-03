@@ -4,11 +4,11 @@ services:
   nuxt:
     build:
       context: .
-    image: nuxt_dev
-    container_name: nuxt_dev
+    image: e-learning-nuxtapp
+    container_name: e-learning-nuxtapp
     command: npm run dev
     volumes:
-    - .:/nuxt
-    - /nuxt/node_modules
+    - .:/e-learning-nuxtapp
+    - /e-learning-nuxtapp/node_modules
     ports:
       - "3000:3000"
