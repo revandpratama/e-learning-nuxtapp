@@ -19,35 +19,47 @@
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
-                                        Product name
+                                        Code
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Color
+                                        Lecturer
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Category
+                                        Subject
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Price
+                                        Credit
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Score
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Index
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <tr v-for="score in data.scores" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ data.scores.chemistry.lecturer }}
+                                        {{ score.code }}
                                     </th>
                                     <td class="px-6 py-4">
-                                        Silver
+                                        {{ score.lecturer }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        Laptop
+                                        {{ score.subject }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        $2999
+                                        {{ score.credit }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ score.score }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ score.index }}
                                     </td>
                                 </tr>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <!-- <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         Microsoft Surface Pro
                                     </th>
@@ -74,7 +86,7 @@
                                     <td class="px-6 py-4">
                                         $99
                                     </td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
                     </div>
@@ -95,19 +107,34 @@ const datas = [
         "semester": 1,
         "scores": {
             "chemistry": {
+                "code": "MKBB12",
                 "lecturer": "Ms.Andy",
+                "subject": "chemistry",
+                "credit": 3,
                 "score": 92,
+                "index": "A"
+            },
+            "biology": {
+                "code": "MKBB13",
+                "lecturer": "Mr.Ben",
+                "subject": "biology",
+                "credit": 3,
+                "score": 85,
+                "index": "B"
             },
         },
     },
     {
         "semester": 2,
-        "score":88,
         "scores": {
-            "chemistry": {
-                "lecturer": "Ms.Audy",
-                "score": 22,
-            },
+            "biology": {
+                "code": "MKBB13",
+                "lecturer": "Mr.Benten",
+                "subject": "biology",
+                "credit": 3,
+                "score": 85,
+                "index": "B"
+            }
         },
     },
 ];
