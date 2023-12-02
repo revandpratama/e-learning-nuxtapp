@@ -158,7 +158,8 @@ function toggleStatus(data) {
 //   });
 // });
 
-console.log(newDatas);
+
+
 </script>
 
 <style lang="scss" scoped>

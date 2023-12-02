@@ -5,7 +5,7 @@
     <div class="flex justify-center items-center h-screen">
         
         <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <form class="space-y-6" @submit.prevent="login()">
+            <form class="space-y-6" @submit.prevent="handleRegister">
                 <h5 class="text-xl font-medium text-gray-900 dark:text-white">Register</h5>
                 <div>
                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your name</label>
@@ -48,25 +48,30 @@ definePageMeta({
 });
 
 
-const form = reactive({
+const form = ref({
     name: "",
     nim: "",
     email: "",
     password: ""
 })
 
-const login = async () => {
-    const {data:responseData} = await useFetch('http://localhost:8000/api/login', {
-        method: 'POST',
-        body: {
-            name: form.name,
-            nim: form.nim,
-            email: form.email,
-            password: form.password
-        }
-    });
+async function handleRegister() {
+    const {error} = await auth.register(form.value)
 
-    console.log(form);
+    if (!error.value) {
+        navigateTo('/')
+    }
+    // const {data:responseData} = await useFetch('http://localhost:8000/api/login', {
+    //     method: 'POST',
+    //     body: {
+    //         name: form.name,
+    //         nim: form.nim,
+    //         email: form.email,
+    //         password: form.password
+    //     }
+    // });
+
+    // console.log(form);
 }
 
 </script>

@@ -48,12 +48,16 @@
 
 <script setup>
 
+definePageMeta({
+    middleware: ['auth']
+})
+
 const start = ref(false)
 const timer = ref(10)
 
 function startQuiz() {
     start.value = true;
-
+    
     const timerInterval = setInterval(() => {
         timer.value = timer.value-1;
         if(timer.value == 0) {

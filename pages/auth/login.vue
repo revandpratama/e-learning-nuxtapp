@@ -5,7 +5,7 @@
     <div class="flex justify-center items-center h-screen">
         
         <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <form class="space-y-6" @submit.prevent="login()">
+            <form class="space-y-6" @submit.prevent="handleLogin">
                 <h5 class="text-xl font-medium text-gray-900 dark:text-white">Sign in</h5>
                 <div>
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
@@ -35,27 +35,34 @@
 </template>
 
 <script setup>
+import { useApiFetch } from '~/composable/useApiFetch';
+
 definePageMeta({
-    layout: "empty"
+    layout: "empty",
+    middleware: ['guest']
 });
 
 
-const form = reactive({
-    email: "",
-    password: ""
+const form = ref({
+    email: "test@example.com",
+    password: "password"
 })
 
-const login = async () => {
-    const {data:responseData} = await useFetch('http://localhost:8000/api/login', {
-        method: 'POST',
-        body: {
-            email: form.email,
-            password: form.password
-        }
-    });
+const auth = useAuthStore()
 
-    console.log(responseData.value);
+async function handleLogin() {
+    if(auth.isLoggedIn) {
+        return navigateTo('/');
+    };
+    const {error} = await auth.login(form.value)
+
+    if(!error.value) {
+        return navigateTo('/');
+    }
+
+    console.log(error);
 }
+
 
 </script>
 

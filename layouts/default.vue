@@ -16,7 +16,7 @@
                             </svg>
                         </button>
                         <NuxtLink to="/" class="flex ml-2 md:mr-24">
-                            <img src="../assets/img/logo.png" class="h-8 mr-3" alt="FlowBite Logo" />
+                            <img src="../assets/img/logo.png" class="h-8 mr-3" alt="Logo" />
                             <span
                                 class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">E-learning</span>
                         </NuxtLink>
@@ -37,18 +37,25 @@
                                 id="dropdown-user">
                                 <div class="px-4 py-3" role="none">
                                     <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                        Neil Sims
+                                        <span v-if="auth.user">{{ auth.user.name }}</span>
+                                        <span v-else>Niel Robinson</span>
                                     </p>
                                     <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                        neil.sims@flowbite.com
+                                        <span v-if="auth.user">{{ auth.user.email }}</span>
+                                        <span v-else>niel@asdads.com</span>
                                     </p>
                                 </div>
                                 <ul class="py-1" role="none">                                  
                                     <li>
-                                        <a href="#"
+                                        <div 
                                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                            role="menuitem">Sign out</a>
+                                            role="menuitem"><button @click="handleLogout" class="w-full">Sign out</button></div>
                                     </li>
+                                    <!-- <li>
+                                        <NuxtLink to="/auth/login"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                            role="menuitem">Sign out</NuxtLink>
+                                    </li> -->
                                 </ul>
                             </div>
                         </div>
@@ -145,4 +152,10 @@ import { initFlowbite } from "flowbite";
 onMounted(() => {
     initFlowbite();
 });
+
+const auth = useAuthStore();
+
+async function handleLogout() {
+    await auth.logout();
+}
 </script>
