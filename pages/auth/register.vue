@@ -44,7 +44,8 @@
 
 <script setup>
 definePageMeta({
-    layout: "empty"
+    layout: "empty",
+    middleware: "guest"
 });
 
 

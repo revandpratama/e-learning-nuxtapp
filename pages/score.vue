@@ -6,11 +6,10 @@
         <h1 class="text-3xl font-semibold">Score</h1>
 
         <hr class="mt-4" />
-
         <div class="container mt-4">
             <div class=" mb-4" v-for="data in newDatas">
                 <button class="w-full text-start border border-sky-400 pb-4 pt-4 rounded-lg bg-sky-100 hover:bg-sky-200 " @click="toggleStatus(data)">
-                    <h1 class=" p-4 text-xl">Semester {{ data.semester }}</h1>
+                    <h1 class=" p-4 text-xl">Semester {{ data[0] }}</h1>
                     <hr class="border-black" />  
                 </button>
                 <div v-if="data.status.value"  class="w-full bg-slate-200 mt-1">      
@@ -39,18 +38,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="score in data.scores" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <tr v-for="score in data[1]" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ score.code }}
+                                        {{ score.krs.id }}
                                     </th>
                                     <td class="px-6 py-4">
-                                        {{ score.lecturer }}
+                                        {{ score.krs.lecturer }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{ score.subject }}
+                                        {{ score.krs.subject.name }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{ score.credit }}
+                                        {{ score.krs.subject.credits }}
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ score.score }}
@@ -99,10 +98,14 @@
 </template>
 
 <script setup>
+import { useRuntimeConfig } from 'nuxt/app';
+import { useApiFetch } from '~/composable/useApiFetch';
 
-// const alterra = ref(false);
+definePageMeta({
+    middleware: 'auth'
+})
 
-const datas = [
+const datasssss = [
     {
         "semester": 1,
         "scores": {
@@ -139,13 +142,49 @@ const datas = [
     },
 ];
 
+const datas = {
+    "1": [
+        {
+            "code": "MKBB13",
+            "lecturer": "Mr.Benten",
+            "subject": "biology",
+            "credit": 3,
+            "score": 85,
+            "index": "B",
+            "subject": {
+                "semester": 1,
+                "name": 'biology'
+            }
+        }
+    ],
+    "2": [
+        {
+            "code": "MKBB12",
+            "lecturer": "Mr.Aust",
+            "subject": "physic",
+            "credit": 3,
+            "score": 12,
+            "index": "B",
+            "subject": {
+                "semester": 2,
+                'name': 'physic'
+            }
+        }
+    ]
 
-const newDatas = datas.map((data) => {
+}
+
+const { data } = await useApiFetch('/api/score');
+
+const scoreData = data.value.data
+
+const newDatas = Object.entries(scoreData).map((data) => {
     return {
         ...data,
         status: toRef(ref(false), 'value'),
     }
 })
+
 
 function toggleStatus(data) {
   data.status.value = !data.status.value; // Access the reactive reference using .value
@@ -157,7 +196,6 @@ function toggleStatus(data) {
 //     data.status = newValue;
 //   });
 // });
-
 
 
 </script>

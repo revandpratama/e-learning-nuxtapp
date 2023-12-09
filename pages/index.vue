@@ -46,7 +46,7 @@
                 </div>
                 <div class="w-1/6 bg-red-500 h-40 flex-grow p-4 rounded-lg shadow-xl">
                     <div class="flex justify-between h-16 items-center">
-                        <span class="text-3xl font-semibold">Rp. 500000</span>
+                        <span class="text-3xl font-semibold">Rp. {{ totalTuitionData }}</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12a7 7 0 1 0 14 0a7 7 0 1 0-14 0M4 4l3 3m13-3l-3 3M4 20l3-3m13 3l-3-3"/></svg>
                     </div>
                     <p class="mb-4">Tagihan</p>
@@ -62,8 +62,25 @@
 </template>
 
 <script setup>
+import { useApiFetch } from '~/composable/useApiFetch';
+import { useAuthStore } from "~/stores/useAuthStore";
+
+definePageMeta({
+    middleware: 'auth'
+})
 
 
+const { data } = await useApiFetch('/api/tuition');
+
+const tuitionData = data.value.data
+let totalTuitionData = 0;
+tuitionData.forEach(element => {
+    totalTuitionData += element.amount
+
+});
+
+console.log('in index: ' + useAuthStore().isLoggedIn);
+// console.log(tuitionData[0].amount);
 
 </script>
 

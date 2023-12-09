@@ -22,41 +22,34 @@
                                     Component
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Period
+                                    Semester Period
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Amount
                                 </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Class
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Schedule
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr
+                            <tr v-for="tuition, index in tuitionData"
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <td class="px-6 py-4">
-                                    Silver
+                                    {{ index+1 }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    Laptop
+                                    {{ tuition.description }}
                                 </td>
                                 <th scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Apple MacBook Pro 17"
+                                    {{ tuition.semester }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    $2999
+                                    Rp.{{ tuition.amount }}
                                 </td>
-                                <td class="px-6 py-4">
-                                    $2999
-                                </td>
-                                <td class="px-6 py-4">
-                                    $2999
-                                </td>
+                            </tr>
+
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <td class="px-6 py-4 text-center" colspan="3">Total</td>
+                                <td class="px-6 py-4">Rp. {{ totalTuitionData }}</td>
                             </tr>
                             
                         </tbody>
@@ -70,7 +63,25 @@
 </template>
 
 <script setup>
+import { useRuntimeConfig } from 'nuxt/app';
+import { useApiFetch } from '~/composable/useApiFetch';
 
+definePageMeta({
+    middleware: 'auth'
+})
+
+const config = useRuntimeConfig();
+
+const { data } = await useApiFetch('/api/tuition');
+
+const tuitionData = data.value.data
+// console.log(data.value.data);
+
+let totalTuitionData = 0;
+tuitionData.forEach(element => {
+    totalTuitionData += element.amount
+
+});
 </script>
 
 <style lang="scss" scoped>

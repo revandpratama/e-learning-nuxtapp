@@ -49,7 +49,7 @@
 <script setup>
 
 definePageMeta({
-    middleware: ['auth']
+    middleware: ['guest']
 })
 
 const start = ref(false)

@@ -37,26 +37,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr
+                            <tr v-for="krs, index in dataKRS"
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <td class="px-6 py-4">
-                                    Silver
+                                    {{ index+1 }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    Laptop
+                                    {{ krs.id }}
                                 </td>
                                 <th scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Apple MacBook Pro 17"
+                                    {{ krs.subject.name }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    $2999
+                                    {{ krs.subject.credits }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    $2999
+                                    Class
                                 </td>
                                 <td class="px-6 py-4">
-                                    $2999
+                                    Schedule
                                 </td>
                             </tr>
                             
@@ -69,6 +69,19 @@
     </div></template>
 
 <script setup>
+import { useRuntimeConfig } from 'nuxt/app';
+import { useApiFetch } from '~/composable/useApiFetch';
+definePageMeta({
+    middleware: 'auth'
+})
+
+const config = useRuntimeConfig();
+
+const { data } = await useApiFetch('/api/krs');
+
+const dataKRS = data.value.data
+
+// console.log(data);
 
 </script>
 
