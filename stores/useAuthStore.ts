@@ -22,15 +22,19 @@ type RegistrationInfo = {
 export const useAuthStore = defineStore('auth', () => {
     // we won't expose this element directly
     const user = ref<User |  null>()
+    // const userId = localStorage.getItem('userId')
+    // const isLoggedIn = !!userId
     const isLoggedIn = computed(() => !!user.value)
 
     async function logout() {
-        await useApiFetch("/logout", {
+        await useApiFetch("/api/logout", {
             method: "POST"
         })
 
         //clear cookie
 
+        // localStorage.removeItem('userId');
+        // localStorage.clear();
         user.value = null;
         navigateTo('/auth/login')
     }
@@ -38,6 +42,7 @@ export const useAuthStore = defineStore('auth', () => {
     async function fetchUser() {
         const {data: userData} = await useApiFetch("/api/user")
         user.value = userData.value as  User
+        // localStorage.setItem('userId', String(user.value.id))
     }
 
     async function register(info: RegistrationInfo) {
@@ -45,7 +50,7 @@ export const useAuthStore = defineStore('auth', () => {
         await useApiFetch("/sanctum/csrf-cookie")
     
     
-        const register = await useApiFetch("/register", {
+        const register = await useApiFetch("/api/auth/register", {
             method: "POST",
             body: info,
         })
@@ -60,7 +65,7 @@ export const useAuthStore = defineStore('auth', () => {
         await useApiFetch("/sanctum/csrf-cookie")
     
     
-        const login = await useApiFetch("/login", {
+        const login = await useApiFetch("/api/auth/login", {
             method: "POST",
             body: credentials,
         })
